@@ -6,7 +6,7 @@ from .i2c_luminosidad import Luminosidad
 from .temperatura import TemperaturaHumedad
 
 
-class SendData
+class SendData:
     def __init__(self):
         self.access_token_luminosity = "3ROwGzCQ8v9SzgnmTUWs"
         self.access_token_temperature = "HTixCj5AdNcXS6FKu1SR"
