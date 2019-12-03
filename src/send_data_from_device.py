@@ -51,7 +51,7 @@ class SendData:
         self.send_data(self.adc.read_detectar_humedad_ext(), self.access_token_humidity_ext)
         self.send_data(self.adc.read_detectar_agua(), self.access_token_water_detector)
         self.send_data(self.luminosidad.read_value(), self.access_token_luminosity)
-        time.sleep(5)  #  Se leen datos cada 5 segundos
+        time.sleep(5)  #Se leen datos cada 5 segundos
 
 
 if __name__ == '__main__':
