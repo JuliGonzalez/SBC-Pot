@@ -11,9 +11,9 @@ class SendData:
         self.access_token_luminosity = "3ROwGzCQ8v9SzgnmTUWs"
         self.access_token_temperature = "HTixCj5AdNcXS6FKu1SR"
         self.access_air_token_humidity = "YbUYkjq04yiO2rrIebgt"
-        self.access_token_humidity_int = ""
-        self.access_token_humidity_ext = ""
-        self.access_token_water_detector = ""
+        self.access_token_humidity_int = "fm1x1t4jwglf2CaFpYPn"
+        self.access_token_humidity_ext = "PEGWEsgFwahKBo4ul3B2"
+        self.access_token_water_detector = "oJTVCGogPbGTOCclDkch"
         self.adc = ADCSensor()
         self.luminosidad = Luminosidad()
         self.temperatura = TemperaturaHumedad()
