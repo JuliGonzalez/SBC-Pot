@@ -17,7 +17,7 @@ class ADCSensor:
         return process_data
 
     def read_detectar_agua(self):
-        water_detector_value = self.read(self.detectar_agua)
+        water_detector_value = self.read(self, self.detectar_agua)
         sleep(0.5)
         return water_detector_value
 
