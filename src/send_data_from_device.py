@@ -1,11 +1,22 @@
 import requests
+import time
+
+from .ADC import ADC
+from .i2c_luminosidad import Luminosidad
+from .temperatura import TemperaturaHumedad
 
 
-class SendData:
+class SendData
     def __init__(self):
         self.access_token_luminosity = "3ROwGzCQ8v9SzgnmTUWs"
         self.access_token_temperature = "HTixCj5AdNcXS6FKu1SR"
         self.access_air_token_humidity = "YbUYkjq04yiO2rrIebgt"
+        self.access_token_humidity_int = ""
+        self.access_token_humidity_ext = ""
+        self.access_token_water_detector = ""
+        self.adc = ADC()
+        self.luminosidad = Luminosidad()
+        self.temperatura = TemperaturaHumedad()
 
     def send_data(self, data, access_token):
         url = 'https://demo.thingsboard.io/api/v1/' + access_token + '/telemetry'
@@ -33,15 +44,17 @@ class SendData:
             print(r.status_code)
             print("Another error has occurred")
 
+    def setup(self):
+        self.send_data(self.temperatura.get_temperature(), self.access_token_temperature)
+        self.send_data(self.temperatura.get_humidity(), self.access_air_token_humidity)
+        self.send_data(self.adc.read_detectar_humedad_int(), self.access_token_humidity_int)
+        self.send_data(self.adc.read_detectar_humedad_ext(), self.access_token_humidity_ext)
+        self.send_data(self.adc.read_detectar_agua(), self.access_token_water_detector)
+        self.send_data(self.luminosidad.read_value(), self.access_token_luminosity)
+        time.sleep(5)  #  Se leen datos cada 5 segundos
+
 
 if __name__ == '__main__':
     send = SendData()
-    data_lum = 300
-    data_temp = 25
-    data_hum = 0.60
-
     while True:
-        send.send_data(data_lum, send.access_token_luminosity)
-        send.send_data(data_temp, send.access_token_temperature)
-        send.send_data(data_hum, send.access_air_token_humidity)
-        data_lum += 1
+        send.setup()
