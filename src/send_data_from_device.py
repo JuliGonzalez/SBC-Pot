@@ -1,6 +1,5 @@
 import requests
 
-import
 
 class SendData:
     def __init__(self):
