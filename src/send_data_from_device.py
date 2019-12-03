@@ -1,9 +1,9 @@
 import requests
 import time
 
-from .ADC import ADC
-from .i2c_luminosidad import Luminosidad
-from .temperatura import TemperaturaHumedad
+from ADC import ADCSensor
+from i2c_luminosidad import Luminosidad
+from temperatura import TemperaturaHumedad
 
 
 class SendData:
@@ -14,7 +14,7 @@ class SendData:
         self.access_token_humidity_int = ""
         self.access_token_humidity_ext = ""
         self.access_token_water_detector = ""
-        self.adc = ADC()
+        self.adc = ADCSensor()
         self.luminosidad = Luminosidad()
         self.temperatura = TemperaturaHumedad()
 

@@ -2,7 +2,7 @@ import spidev
 from time import sleep
 
 
-class ADC:
+class ADCSensor:
     def __init__(self):
         self.detectar_agua = 0
         self.humedad_agua_int = 1
