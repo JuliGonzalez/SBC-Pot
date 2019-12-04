@@ -57,7 +57,7 @@ class SendData:
         self.gpio.change_color(valor_agua)
         self.send_data(self.luminosidad.read_value(), self.access_token_luminosity)
         # self.send_data(self.adc.read_peso_motor(), self.access_token_weight_detector)
-        time.sleep(2.5)  #Se leen datos cada 5 segundos
+        # time.sleep(1)  #Se leen datos cada 5 segundos
 
 
 if __name__ == '__main__':

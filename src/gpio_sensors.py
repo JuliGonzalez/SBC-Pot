@@ -25,7 +25,7 @@ class GPIO:
     def change_color(self, value):
         pin_R = mraa.Gpio(self.pin_RED)
         pin_B = mraa.Gpio(self.pin_BLUE)
-        pin_G = mraa.Gpio(self.pin_BLUE)
+        pin_G = mraa.Gpio(self.pin_GREEN)
         pin_R.dir(mraa.DIR_OUT)
         pin_B.dir(mraa.DIR_OUT)
         pin_G.dir(mraa.DIR_OUT)
