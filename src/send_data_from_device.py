@@ -19,7 +19,7 @@ class SendData:
         self.temperatura = TemperaturaHumedad()
 
     def send_data(self, data, access_token):
-        url = 'https://demo.thingsboard.io/api/v1/' + access_token + '/telemetry'
+        url = ':demo.thingsboard.io/api/v1/' + access_token + '/telemetry'
         payload = "{\n    \"valor actual:\": \"%s\"\n}" % data
         headers = {
             'Content-Type': "application/json",
