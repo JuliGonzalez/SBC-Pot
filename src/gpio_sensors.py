@@ -4,8 +4,8 @@ import time
 
 class GPIO:
     def __init__(self):
-        self.pin_peso =
-        self.pin_rele =
+        # self.pin_peso =
+        # self.pin_rele =
         self.pin_RED = 37
         self.pin_GREEN = 31
         self.pin_BLUE = 29
