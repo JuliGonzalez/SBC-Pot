@@ -27,12 +27,13 @@ class GPIO:
         pin_B = mraa.Gpio(self.pin_BLUE)
         pin_R.dir(mraa.DIR_OUT)
         pin_B.dir(mraa.DIR_OUT)
-        if value > 650:
+        if value < 200:
             pin_R.write(1)
             pin_B.write(1)
         else:
             pin_B.write(0)
             pin_R.write(0)
+
 
 if __name__=="__main__":
     gp = GPIO()

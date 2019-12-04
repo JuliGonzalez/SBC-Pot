@@ -4,6 +4,7 @@ import time
 from ADC import ADCSensor
 from i2c_luminosidad import Luminosidad
 from temperatura import TemperaturaHumedad
+from gpio_sensors import GPIO
 
 
 class SendData:
@@ -18,6 +19,7 @@ class SendData:
         self.adc = ADCSensor()
         self.luminosidad = Luminosidad()
         self.temperatura = TemperaturaHumedad()
+        self.gpio = GPIO()
 
     def send_data(self, data, access_token):
         url = 'https://demo.thingsboard.io/api/v1/' + access_token + '/telemetry'
@@ -50,10 +52,12 @@ class SendData:
         self.send_data(self.temperatura.get_humidity(), self.access_air_token_humidity)
         self.send_data(self.adc.read_detectar_humedad_int(), self.access_token_humidity_int)
         self.send_data(self.adc.read_detectar_humedad_ext(), self.access_token_humidity_ext)
-        self.send_data(self.adc.read_detectar_agua(), self.access_token_water_detector)
+        valor_agua = self.adc.read_detectar_agua()
+        self.send_data(valor_agua, self.access_token_water_detector)
+        self.gpio.change_color(valor_agua)
         self.send_data(self.luminosidad.read_value(), self.access_token_luminosity)
         # self.send_data(self.adc.read_peso_motor(), self.access_token_weight_detector)
-        time.sleep(5)  #Se leen datos cada 5 segundos
+        time.sleep(2.5)  #Se leen datos cada 5 segundos
 
 
 if __name__ == '__main__':
