@@ -14,12 +14,13 @@ class SendData:
         self.access_token_humidity_int = "fm1x1t4jwglf2CaFpYPn"
         self.access_token_humidity_ext = "PEGWEsgFwahKBo4ul3B2"
         self.access_token_water_detector = "oJTVCGogPbGTOCclDkch"
+        self.access_token_weight_detector = ""
         self.adc = ADCSensor()
         self.luminosidad = Luminosidad()
         self.temperatura = TemperaturaHumedad()
 
     def send_data(self, data, access_token):
-        url = ':demo.thingsboard.io/api/v1/' + access_token + '/telemetry'
+        url = 'https://demo.thingsboard.io/api/v1/' + access_token + '/telemetry'
         payload = "{\n    \"valor actual:\": \"%s\"\n}" % data
         headers = {
             'Content-Type': "application/json",
@@ -51,6 +52,7 @@ class SendData:
         self.send_data(self.adc.read_detectar_humedad_ext(), self.access_token_humidity_ext)
         self.send_data(self.adc.read_detectar_agua(), self.access_token_water_detector)
         self.send_data(self.luminosidad.read_value(), self.access_token_luminosity)
+        # self.send_data(self.adc.read_peso_motor(), self.access_token_weight_detector)
         time.sleep(5)  #Se leen datos cada 5 segundos
 
 

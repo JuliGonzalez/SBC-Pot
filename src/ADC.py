@@ -7,6 +7,7 @@ class ADCSensor:
         self.detectar_agua = 0
         self.humedad_agua_int = 1
         self.humedad_agua_ext = 2
+        self.peso_sensor = 3
 
     @staticmethod
     def read(self, channel):
@@ -30,3 +31,10 @@ class ADCSensor:
         humidity_detector_value = self.read(self, self.humedad_agua_ext)
         sleep(0.5)
         return humidity_detector_value
+
+    def read_peso_sensor(self):
+        weight_detector_value = self.read(self, self.peso_sensor)
+        sleep(0.5)
+        weight_detector_value = (weight_detector_value * 18.41)  # valor transformado en gramos
+        return weight_detector_value
+
