@@ -42,7 +42,7 @@ class ADCSensor:
 if __name__ == '__main__':
     while True:
         adc = ADCSensor()
-        print("Detector agua: " + str(adc.detectar_agua))
+        print("Detector agua: " + str(adc.read_detectar_agua()))
         print("Detector humedad_int: " +  str(adc.read_detectar_humedad_int()))
         print("Detector humedad_ext: " + str(adc.read_detectar_humedad_ext()))
         print("Detector peso: " + str(adc.read_peso_sensor()))
