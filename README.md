@@ -1,9 +1,7 @@
 #PROYECTO MACETERO SBC
-##Miembros del grupo:
+
+Proyecto básico en python para el control de un macetero de manera automática.
+
+Existe una implementación posterior en Arduino con una placa SparkFun ESP32 en otro repositorio de esta cuenta.
+
 Julián González Dos Reis
-
-David el mierdas
-
-Aitor el vago
-
-Javi el desaparecido
