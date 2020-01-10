@@ -1,4 +1,4 @@
-#PROYECTO MACETERO SBC
+# PROYECTO MACETERO SBC
 
 Proyecto básico en python para el control de un macetero de manera automática.
 
