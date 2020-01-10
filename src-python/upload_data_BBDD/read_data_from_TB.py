@@ -1,14 +1,31 @@
 import requests
+from configparser import ConfigParser
+
+
+def read_credentials(filename='../../config.ini', section='thingsboard'):
+    parser = ConfigParser()
+    parser.read(filename)
+
+    thingsboard = {}
+    if parser.has_section(section):
+        items = parser.items(section)
+        for item in items:
+            thingsboard[item[0]] = item[1]
+    else:
+        raise Exception('{0} not found in the {1} file'.format(section, filename))
+
+    return thingsboard
 
 
 def read_data_from_thingsboard():
+    thingsboard_credentials = read_credentials()
     base = "https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/"
-    access_token = "bd2a9500-1d38-11ea-b102-b79db24c38c3"
+    access_token = thingsboard_credentials.get('access_token')
     endpoint = "/values/attributes"
     url = base + access_token + endpoint
 
     headers = {
-        'x-authorization': "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmamdhcmNpYS5hbHZhcmV6QGhvdG1haWwuY29tIiwic2NvcGVzIjpbIlRFTkFOVF9BRE1JTiJdLCJ1c2VySWQiOiJkNjA2YWU1MC1lYWQwLTExZTktYmM3Mi1lOWQyMzA2NTUzOTYiLCJmaXJzdE5hbWUiOiJGcmFuY2lzY28gSmF2aWVyIiwibGFzdE5hbWUiOiJHYXJjaWEgQWx2YXJleiIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6ImQ1ODA4ZTYwLWVhZDAtMTFlOS1iYzcyLWU5ZDIzMDY1NTM5NiIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTU3ODY1NDMyOCwiZXhwIjoxNTgwNDU0MzI4fQ.kTEpGzZbAMWk3YR3ItAEg8i6vIwajJi0tPCDmrH5SvMdO_1G3NUOhTiFpc_dsQtPhnR7OiIhdq2td-Q6-HuxPg",
+        'x-authorization': "{}".format(thingsboard_credentials.get("jwt_token")),
         'content-type': "application/json"
         }
 
@@ -20,3 +37,9 @@ def read_data_from_thingsboard():
 
 if __name__ == "__main__":
     read_data_from_thingsboard()
+
+#todo
+# forma correcta de hacer el post
+# https://demo.thingsboard.io/api/v1/r7Sew3dL20m8iKCpzWIf/attributes
+# {"attribute1":"value1", "attribute2":true, "attribute3":42.0, "attribute4":77}
+# headers : Content-Type : application/json
