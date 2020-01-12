@@ -8,7 +8,7 @@ def insert_values(read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad
             "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     args = (
         read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad_aire, co2, luminosidad, temperatura,
-        agua_detectada)
+        agua_detectada, rele)
 
     try:
         db_config = read_db_config()
