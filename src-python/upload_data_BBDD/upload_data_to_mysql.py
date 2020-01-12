@@ -3,9 +3,9 @@ from python_mysql_dbconfig import read_db_config
 
 
 def insert_values(read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad_aire, co2, luminosidad, temperatura,
-                  agua_detectada):
-    query = "INSERT INTO esp32.esp32_thingsboard(read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad_aire, co2, luminosidad, temperatura, agua_detectada) " \
-            "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                  agua_detectada, rele):
+    query = "INSERT INTO esp32.esp32_thingsboard(read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad_aire, co2, luminosidad, temperatura, agua_detectada, rele) " \
+            "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     args = (
         read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad_aire, co2, luminosidad, temperatura,
         agua_detectada)
@@ -33,7 +33,7 @@ def insert_values(read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad
 
 
 def main():
-    insert_values('2020-01-10-8:54', 29, 29, 29, 29, 29, 29, 29, 29)
+    insert_values('2020-01-10-8:54', 29, 29, 29, 29, 29, 29, 29, 29, 0)
 
 
 if __name__ == '__main__':
