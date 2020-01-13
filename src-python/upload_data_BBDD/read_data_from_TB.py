@@ -3,6 +3,12 @@
 import requests
 from configparser import ConfigParser
 import json
+from datetime import datetime
+
+
+def timestamp_to_date(timestamp):
+    dt_object = datetime.fromtimestamp(float(timestamp) / 1000.0)
+    return dt_object
 
 
 def read_credentials(filename='../../config.ini', section='thingsboard'):
@@ -24,7 +30,7 @@ def read_data_from_thingsboard():
     thingsboard_credentials = read_credentials()
     base = "https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/"
     access_token = thingsboard_credentials.get('access_token')
-    endpoint = "/values/attributes"
+    endpoint = "/values/timeseries"
     url = base + access_token + endpoint
 
     headers = {
@@ -40,27 +46,23 @@ def read_data_from_thingsboard():
     return parsed
 
 
-def return_data(json_data):
+def return_data(json):
     data = []
-    read_date = json[0].get("key")
-    peso = json[0].get("key")
-    humedad_suelo_INT = json[0].get("key")
-    humedad_suelo_EXT = json[0].get("key")
-    humedad_aire = json[0].get("key")
-    co2 = json[0].get("key")
-    luminosidad = json[0].get("key")
-    temperatura = json[0].get("key")
-    agua_detectada = json[0].get("key")
-    data = [read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad_aire, co2, luminosidad, temperatura, agua_detectada]
+    read_date = timestamp_to_date(json.get("agua_detectada")[0].get('ts'))
+    peso = json.get("peso")[0].get('value')
+    humedad_suelo_INT = json.get("humedad_suelo_INT")[0].get('value')
+    humedad_suelo_EXT = json.get("humedad_suelo_EXT")[0].get('value')
+    humedad_aire = json.get("humedad_aire")[0].get('value')
+    co2 = json.get("co2")[0].get('value')
+    luminosidad = json.get("luminosidad")[0].get('value')
+    temperatura = json.get("temperatura")[0].get('value')
+    agua_detectada = json.get("agua_detectada")[0].get('value')
+    rele = json.get("rele")[0].get("value")
+    data = [read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad_aire, co2, luminosidad, temperatura, agua_detectada, rele]
     return data
 
 
 if __name__ == "__main__":
     json = read_data_from_thingsboard()
-    print(json[0].get("key"))
+    print(json.get("agua_detectada")[0].get('ts'))
 
-# todo
-# forma correcta de hacer el post
-# https://demo.thingsboard.io/api/v1/r7Sew3dL20m8iKCpzWIf/attributes
-# {"attribute1":"value1", "attribute2":true, "attribute3":42.0, "attribute4":77}
-# headers : Content-Type : application/json

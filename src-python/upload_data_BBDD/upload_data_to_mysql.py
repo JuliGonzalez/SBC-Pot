@@ -1,5 +1,6 @@
 from mysql.connector import MySQLConnection, Error
 from python_mysql_dbconfig import read_db_config
+import read_data_from_TB as read_data
 
 
 def insert_values(read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad_aire, co2, luminosidad, temperatura,
@@ -33,7 +34,9 @@ def insert_values(read_date, peso, humedad_suelo_INT, humedad_suelo_EXT, humedad
 
 
 def main():
-    insert_values('2020-01-10-8:54', 29, 29, 29, 29, 29, 29, 29, 29, 0)
+    json = read_data.read_data_from_thingsboard()
+    data = read_data.return_data(json)
+    insert_values(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9])
 
 
 if __name__ == '__main__':
