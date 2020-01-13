@@ -40,7 +40,7 @@ def read_data_from_thingsboard():
 
     r = requests.get(url=url, headers=headers)
     print(r.status_code)
-    parsed = json.loads(r.content)
+    parsed = json.loads(r.content.decode('utf-8'))
     print(parsed)
     print()
     return parsed
