@@ -10,7 +10,7 @@ class StorageRepository:
     _storageRepo = None
     _file_path = None
 
-    def __init__(self, file_path='results_{}.csv'.format(str(datetime.date.today()))):
+    def __init__(self, file_path='results_{}.csv'.format(str(datetime.date.today()+datetime.timedelta(days=-1)))):
         self._storageRepo = storage.Client.from_service_account_json(
             '../../storage_SA.json')
         self._file_path = file_path

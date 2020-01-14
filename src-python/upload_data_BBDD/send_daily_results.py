@@ -8,10 +8,10 @@ from upload_file_to_storage import StorageRepository
 
 def get_results_from_mysql():
     date_today = datetime.date.today()
-    date_tomorrow = date_today + datetime.timedelta(days=1)
-    print("Lanzando query entre los dias {0} y {1}".format(str(date_today), str(date_tomorrow)))
+    date_yesterday = date_today + datetime.timedelta(days=-1)
+    print("Lanzando query entre los dias {0} y {1}".format(str(date_yesterday), str(date_today)))
     query = "SELECT * FROM esp32.esp32_thingsboard  WHERE read_date > %s AND read_date < %s"
-    args = (date_today, date_tomorrow)
+    args = (date_yesterday, date_today)
 
     try:
         db_config = read_db_config()
@@ -20,8 +20,6 @@ def get_results_from_mysql():
         cursor = conn.cursor()
         cursor.execute(query, args)
         records = cursor.fetchall()
-        print(type(records))
-        print(records[0][1])
         print("Total number of rows is: ", cursor.rowcount)
         conn.commit()
     except Error as error:
@@ -44,7 +42,7 @@ def transform_to_dataframe(results):
         df = df.append({"id": row[0], "read_date": row[1], "peso": row[2], "humedad_suelo_INT": row[3],
                         "humedad_suelo_EXT": row[4], "humedad_aire": row[5], "co2": row[6], "luminosidad": row[7],
                         "temperatura": row[8], "agua_detectada": row[9], "rele": row[10]}, ignore_index=True)
-    df.to_csv("results_{}.csv".format(str(datetime.date.today())), sep=';')
+    df.to_csv("results_{}.csv".format(str(datetime.date.today()+datetime.timedelta(days=-1))), sep=';')
 
 
 def main():
