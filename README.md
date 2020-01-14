@@ -13,10 +13,11 @@ acciones sobre la planta y se gestiona de manera completamente automática.
 ## Structure
 
 ```
-src-arduino/       
-src-python/
-docs/
-config.ini
+/SBC-Pot/
+|-- src-arduino
+|-- src-python
+    `-- upload_data_BBDD
+    `-- upsquare-build
 ```
 
 
