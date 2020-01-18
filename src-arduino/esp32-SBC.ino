@@ -28,7 +28,8 @@ const char* ssid = "MOVISTAR_1B78";
 const char* password =  "PR7UnUjliPmP99wupwpp";
 const char* token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmamdhcmNpYS5hbHZhcmV6QGhvdG1haWwuY29tIiwic2NvcGVzIjpbIlRFTkFOVF9BRE1JTiJdLCJ1c2VySWQiOiJkNjA2YWU1MC1lYWQwLTExZTktYmM3Mi1lOWQyMzA2NTUzOTYiLCJmaXJzdE5hbWUiOiJGcmFuY2lzY28gSmF2aWVyIiwibGFzdE5hbWUiOiJHYXJjaWEgQWx2YXJleiIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6ImQ1ODA4ZTYwLWVhZDAtMTFlOS1iYzcyLWU5ZDIzMDY1NTM5NiIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTU3ODY1NDMyOCwiZXhwIjoxNTgwNDU0MzI4fQ.kTEpGzZbAMWk3YR3ItAEg8i6vIwajJi0tPCDmrH5SvMdO_1G3NUOhTiFpc_dsQtPhnR7OiIhdq2td-Q6-HuxPg";
 
-int sistemaOK = 1;
+int co2OK = 1;
+int humedadOK = 1;
 
 void setup() {
   Serial.begin(115200);
@@ -154,12 +155,12 @@ int comprobarSistema() {
   int humedad_tierra_int, humedad_tierra_ext, humedad_tierra_total;
   int co2;
   co2 = read_co2();
-  if (co2 > 1500){
+  if (co2 > 1000){
     led_parpadeo(ledRojo);
-    sistemaOK = 0;
-  }else if (co2 < 1500 and sistemaOK == 0){
+    co2OK = 0;
+  }else if (co2 < 1500 and co2OK == 0){
     led_parpadeo(ledVerde);
-    sistemaOK = 1;
+    co2OK = 1;
   }
 
   humedad_tierra_int = calcularHumedadSueloINT();
@@ -172,19 +173,17 @@ int comprobarSistema() {
     activarRele();
     led_parpadeo(ledAzul);
     rele = 1;
+    humedadOK = 0;
     return rele;
   }
-  else if (agua_detectada > 150) {
+  else if ((agua_detectada > 150 or humedad_tierra_total > 420) and humedadOK == 0) {
     desactivarRele();
     led_parpadeo(ledVerde);
+    humedadOK = 1;
     rele = 0;
     return rele;
   }
-  else{
-    desactivarRele();
-    rele = 0;
-    return rele;
-  }
+  return rele;
 }
 
 int send_data(String name_value, float value){
