@@ -23,8 +23,8 @@ const int ledAzul = 16;
 
 
 const char* ssid = "MOVISTAR_1B78";
-// const  char* ssid = "iPhuli"
-// const char* password = "holaquetal"
+//const  char* ssid = "iPhuli";
+//const char* password = "holaquetal";
 const char* password =  "PR7UnUjliPmP99wupwpp";
 const char* token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmamdhcmNpYS5hbHZhcmV6QGhvdG1haWwuY29tIiwic2NvcGVzIjpbIlRFTkFOVF9BRE1JTiJdLCJ1c2VySWQiOiJkNjA2YWU1MC1lYWQwLTExZTktYmM3Mi1lOWQyMzA2NTUzOTYiLCJmaXJzdE5hbWUiOiJGcmFuY2lzY28gSmF2aWVyIiwibGFzdE5hbWUiOiJHYXJjaWEgQWx2YXJleiIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6ImQ1ODA4ZTYwLWVhZDAtMTFlOS1iYzcyLWU5ZDIzMDY1NTM5NiIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTU3ODY1NDMyOCwiZXhwIjoxNTgwNDU0MzI4fQ.kTEpGzZbAMWk3YR3ItAEg8i6vIwajJi0tPCDmrH5SvMdO_1G3NUOhTiFpc_dsQtPhnR7OiIhdq2td-Q6-HuxPg";
 
@@ -60,10 +60,29 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi..");
+    led_wifi_connecting();
   }
 
   Serial.println("Connected to the WiFi network");
+  led_wifi_ok();
 }
+
+void led_wifi_ok(){
+   digitalWrite(ledAzul, HIGH);
+   digitalWrite(ledVerde, HIGH);
+   delay(3000);
+   digitalWrite(ledAzul, LOW);
+   digitalWrite(ledVerde, LOW);
+}
+
+void led_wifi_connecting(){
+   digitalWrite(ledVerde, HIGH);
+   digitalWrite(ledRojo, HIGH);
+   delay(500);
+   digitalWrite(ledRojo, LOW);
+   digitalWrite(ledVerde, LOW);
+}
+
 
 void led_parpadeo(int color){
   //digitalWrite(ledRojo, LOW);
@@ -155,10 +174,12 @@ int comprobarSistema() {
   int humedad_tierra_int, humedad_tierra_ext, humedad_tierra_total;
   int co2;
   co2 = read_co2();
-  if (co2 > 1000){
+  if (co2 > 1500){
+    Serial.println("co2 demasiado elevado");
     led_parpadeo(ledRojo);
     co2OK = 0;
   }else if (co2 < 1500 and co2OK == 0){
+    Serial.println("co2 estable");
     led_parpadeo(ledVerde);
     co2OK = 1;
   }
@@ -171,6 +192,7 @@ int comprobarSistema() {
 
   if (humedad_tierra_total < 420) {
     activarRele();
+    Serial.println("Electrovalvula abierta");
     led_parpadeo(ledAzul);
     rele = 1;
     humedadOK = 0;
@@ -178,6 +200,7 @@ int comprobarSistema() {
   }
   else if ((agua_detectada > 150 or humedad_tierra_total > 420) and humedadOK == 0) {
     desactivarRele();
+    Serial.println("Electrovalvula cerrada");
     led_parpadeo(ledVerde);
     humedadOK = 1;
     rele = 0;
@@ -252,6 +275,6 @@ void loop() {
   Serial.print("Rele: "); Serial.println(rele);
   send_data("rele", rele);
 
-  //delay of 5s for each bucket of data readed.
+  //delay of 5s for each bucket of data readed.º
   delay(5000);
 }
